@@ -1,0 +1,21 @@
+name: Déploiement Maarch
+
+on:
+  push:
+    branches:
+      - master  # le main de mon porjet studi
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name:  Cloner le dépôt
+        uses: actions/checkout@v3
+
+      - name:  Installer Docker
+        uses: docker-practice/actions-setup-docker@v1
+
+      - name:  Lancer les conteneurs
+        run: |
+          docker-compose -f docker-compose.yml up -d
