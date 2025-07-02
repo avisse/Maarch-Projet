@@ -1,0 +1,24 @@
+name: CI/CD Maarch
+
+on:
+  push:
+    branches:
+      - master  # ou main si ton dépôt utilise main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Récupération du code
+      uses: actions/checkout@v3
+
+    - name: Installer Docker
+      uses: docker-practice/actions-setup-docker@v1
+
+    - name: Build avec Docker Compose
+      run: |
+        docker-compose -f docker-compose.yml up -d --build
+
+    - name: Vérification des conteneurs
+      run: docker ps
