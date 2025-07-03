@@ -1,42 +1,32 @@
-version: "3.8"
+version: '3.8'
 
 services:
   maarch_db:
     image: postgres:14
     container_name: maarch_db
-    restart: always
     environment:
       POSTGRES_USER: maarch
-      POSTGRES_PASSWORD: maarchpass
-      POSTGRES_DB: maarch_db
+      POSTGRES_PASSWORD: maarch
+      POSTGRES_DB: maarchcourrier
     volumes:
-      - maarch_db_data:/var/lib/postgresql/data
+      - maarch_pgdata:/var/lib/postgresql/data
     networks:
       - maarch_net
 
-  maarch_courrier:
+  maarch:
     image: maarch/maarchcourrier:latest
     container_name: maarch_courrier
-    restart: always
     ports:
       - "8080:80"
-    environment:
-      DB_HOST: maarch_db
-      DB_PORT: 5432
-      DB_NAME: maarch_db
-      DB_USER: maarch
-      DB_PASSWORD: maarchpass
-    depends_on:
-      - maarch_db
     networks:
       - maarch_net
-    volumes:
-      - maarch_storage:/opt/maarch/docservers
-
-volumes:
-  maarch_db_data:
-  maarch_storage:
+    depends_on:
+      - maarch_db
 
 networks:
   maarch_net:
+
+volumes:
+  maarch_pgdata:
+
 
